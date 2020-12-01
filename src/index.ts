@@ -5,6 +5,8 @@ import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
 
+// routes
+import UserRoutes from './routers/UserRoutes';
 class App {
 	public app: Application;
 
@@ -27,9 +29,7 @@ class App {
 			res.send("Ini ada route menggunakan typescript with express JS");
 		});
 
-		this.app.route("/users").post((req: Request, res: Response) => {
-			res.send(req.body);
-		});
+		this.app.use("/users", UserRoutes);
 	}
 }
 
