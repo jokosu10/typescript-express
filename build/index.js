@@ -28,7 +28,7 @@ class App {
         this.app.route("/").get((req, res) => {
             res.send("Ini ada route menggunakan typescript with express JS");
         });
-        this.app.use("/users", UserRoutes_1.default);
+        this.app.use("/api/v1/users", UserRoutes_1.default);
     }
 }
 const port = 8000;

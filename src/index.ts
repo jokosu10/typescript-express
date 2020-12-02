@@ -29,7 +29,7 @@ class App {
 			res.send("Ini ada route menggunakan typescript with express JS");
 		});
 
-		this.app.use("/users", UserRoutes);
+		this.app.use("/api/v1/users", UserRoutes);
 	}
 }
 

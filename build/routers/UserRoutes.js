@@ -14,6 +14,9 @@ class UserRoutes {
     routes() {
         this.router.get("/", UserController_1.default.index);
         this.router.post("/", UserController_1.default.create);
+        this.router.get("/:id", UserController_1.default.show);
+        this.router.put("/:id", UserController_1.default.update);
+        this.router.delete("/:id", UserController_1.default.delete);
     }
 }
 exports.default = new UserRoutes().router;
