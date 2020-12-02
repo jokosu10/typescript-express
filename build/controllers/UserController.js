@@ -8,6 +8,7 @@ let data = [
 ];
 class UserController {
     index(req, res) {
+        console.log("this is index user from user controller");
         return res.send(data);
     }
     create(req, res) {
