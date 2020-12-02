@@ -6,6 +6,6 @@ const auth = (req, res, next) => {
     if (auth) {
         next();
     }
-    return res.json({ message: "Authenticated" });
+    return res.json({ message: "Unauthenticated" });
 };
 exports.auth = auth;

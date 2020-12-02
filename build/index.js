@@ -9,6 +9,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const compression_1 = __importDefault(require("compression"));
 const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
+const dotenv_1 = require("dotenv");
 // routes
 const UserRoutes_1 = __importDefault(require("./routers/UserRoutes"));
 class App {
@@ -16,6 +17,7 @@ class App {
         this.app = express_1.default();
         this.plugins();
         this.routes();
+        dotenv_1.config();
     }
     plugins() {
         this.app.use(body_parser_1.default.json());
@@ -31,8 +33,7 @@ class App {
         this.app.use("/api/v1/users", UserRoutes_1.default);
     }
 }
-const port = 8000;
 const app = new App().app;
-app.listen(port, () => {
-    console.log("This application run in port " + port);
+app.listen(process.env.APP_PORT, () => {
+    console.log("This application run in port " + process.env.APP_PORT);
 });

@@ -7,5 +7,5 @@ export const auth = (req: Request, res: Response, next: NextFunction): any => {
 		next();
 	}
 
-	return res.json({ message: "Authenticated" });
+	return res.json({ message: "Unauthenticated" });
 }

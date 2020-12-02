@@ -4,6 +4,7 @@ import morgan from "morgan";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
+import { config as dotenv } from "dotenv";
 
 // routes
 import UserRoutes from './routers/UserRoutes';
@@ -14,6 +15,7 @@ class App {
 		this.app = express();
 		this.plugins();
 		this.routes();
+		dotenv();
 	}
 
 	protected plugins(): void {
@@ -33,8 +35,7 @@ class App {
 	}
 }
 
-const port: number = 8000;
 const app = new App().app;
-app.listen(port, () => {
-	console.log("This application run in port " + port);
+app.listen(process.env.APP_PORT, () => {
+	console.log("This application run in port " + process.env.APP_PORT);
 });
