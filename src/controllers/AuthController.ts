@@ -37,6 +37,10 @@ class AuthController {
 		return res.json({ message: "Authentication failed" });
 
 	}
+
+	profile = (req: Request, res: Response): Response => {
+		return res.json({ message: "This is endpoint profile if you authenticated", data: req.app.locals.credential });
+	}
 }
 
 export default new AuthController();

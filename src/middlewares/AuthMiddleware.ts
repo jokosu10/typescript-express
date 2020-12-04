@@ -1,11 +1,24 @@
 import { Request, Response, NextFunction } from "express";
+import jsonwebtoken from "jsonwebtoken";
 
 export const auth = (req: Request, res: Response, next: NextFunction): any => {
-	let auth = false;
-
-	if (auth) {
-		next();
+	if (!req.headers.authorization) {
+		return res.json({ message: "Not Authenticated" })
 	}
 
-	return res.json({ message: "Unauthenticated" });
+	let secretKey = process.env.JWT_SECRET_KEY || 'secretkey';
+	const token: string = req.headers.authorization.split(" ")[1];
+
+	try {
+		const credential: string | object = jsonwebtoken.verify(token, secretKey);
+
+		if (credential) {
+			req.app.locals.credential = credential;
+			next();
+		}
+
+		return res.json({ message: "token invalid" });
+	} catch (error) {
+		return res.json(error);
+	}
 }
