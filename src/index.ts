@@ -29,7 +29,7 @@ class App {
 
 	protected routes(): void {
 		this.app.route("/").get((req: Request, res: Response) => {
-			res.send("Ini ada route menggunakan typescript with express JS");
+			res.json("Ini ada route menggunakan typescript with express JS");
 		});
 
 		this.app.use("/api/v1/users", UserRoutes);

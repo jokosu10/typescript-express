@@ -8,7 +8,7 @@ const validate = [
 		const errors = validationResult(req);
 
 		if (!errors.isEmpty()) {
-			return res.send({ errors: errors.array() });
+			return res.json({ errors: errors.array() });
 		}
 
 		next();
