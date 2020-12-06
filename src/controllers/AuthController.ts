@@ -32,10 +32,9 @@ class AuthController {
 		if (compare) {
 			let token = Authentication.generateToken(user.id, username, user.password);
 			return res.json({ message: "Authentication successfull", data: token });
+		} else {
+			return res.json({ message: "Authentication failed" });
 		}
-
-		return res.json({ message: "Authentication failed" });
-
 	}
 
 	profile = (req: Request, res: Response): Response => {

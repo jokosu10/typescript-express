@@ -1,36 +1,25 @@
 import { Response, Request } from "express";
-import user from "../db/models/user";
 import IController from "./ControllerInterface";
-const db = require("../db/models");
+import TodoService from "../services/TodoService";
 
 class TodoController implements IController {
 	index = async (req: Request, res: Response): Promise<Response> => {
-		const { id } = req.app.locals.credential;
+		const service: TodoService = new TodoService(req);
+		const todos = await service.getAll();
 
-		const todos = await db.todo.findAll({ where: { user_id: id }, attributes: ['id', 'description'] });
-
-		return res.json({ message: `List all todo by user id : ${id}`, data: todos });
+		return res.json({ message: `List all todo by user id : ${service.credential.id}`, data: todos });
 	}
 
 	create = async (req: Request, res: Response): Promise<Response> => {
-		const { id } = req.app.locals.credential;
-		const { description } = req.body;
-
-		const todo = await db.todo.create({
-			user_id: id,
-			description: description
-		})
+		const service: TodoService = new TodoService(req);
+		const todo = await service.store();
 
 		return res.json({ message: "Create todo success", data: todo });
 	}
 
 	show = async (req: Request, res: Response): Promise<Response> => {
-		const { id: user_id } = req.app.locals.credential;
-		const { id } = req.params;
-
-		const todo = await db.todo.findOne({
-			where: { id, user_id }
-		});
+		const service: TodoService = new TodoService(req);
+		const todo = await service.getOne();
 
 		if (todo) {
 			return res.json({ message: `List single todo by params todo id`, data: todo });
@@ -40,21 +29,10 @@ class TodoController implements IController {
 	}
 
 	update = async (req: Request, res: Response): Promise<Response> => {
-		const { id: user_id } = req.app.locals.credential;
-		const { id } = req.params;
-		const { description } = req.body;
-
-		const todo = await db.todo.findOne({
-			where: { id, user_id }
-		});
+		const service: TodoService = new TodoService(req);
+		const todo = await service.update();
 
 		if (todo) {
-			await db.todo.update({
-				description: description
-			}, {
-				where: { id, user_id }
-			});
-
 			return res.json({ message: "Succesfull update todo" });
 		} else {
 			return res.json({ message: "Unsuccesfull update todo, because id not found" });
@@ -63,21 +41,13 @@ class TodoController implements IController {
 	}
 
 	delete = async (req: Request, res: Response): Promise<Response> => {
-		const { id: user_id } = req.app.locals.credential;
-		const { id } = req.params;
-
-		const todo = await db.todo.findOne({
-			where: { id, user_id }
-		});
+		const service: TodoService = new TodoService(req);
+		const todo = await service.delete();
 
 		if (todo) {
-			await db.todo.destroy({
-				where: { id, user_id }
-			});
-
 			return res.json({ message: "Succesfull delete todo" });
 		} else {
-			return res.json({ message: "Unsuccesfull update todo, because id not found" });
+			return res.json({ message: "Unsuccesfull delete todo, because id not found" });
 		}
 	}
 }
